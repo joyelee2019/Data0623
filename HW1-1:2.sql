@@ -60,20 +60,20 @@ where productvendor='Classicmodels';
 
 -- 13.Report the name and city of customers who don't have sales representatives?
 select customername,
-		city
+	city
 from customers
 where salesrepemployeenumber is null;
 
 -- 14.What are the names of executives with VP or Manager in their title? Use the CONCAT function to combine the employee's first name and last name into a single field for reporting.
 select concat(firstname, ' ', lastname) as excutives_name,
-		jobtitle
+	jobtitle
 from employees
 where jobtitle like '%VP%' or
 	jobtitle like '%manager%';
     
 -- 15.Which orders have a value greater than $5,000?
 select ordernumber,
-		sum(quantityordered*priceeach) as order_amt
+	sum(quantityordered*priceeach) as order_amt
 from orderdetails
 group by ordernumber
 having order_amt>5000;
@@ -93,7 +93,7 @@ where c.customername= 'Atelier graphique';
 
 -- 3.Report the total payments by date.
 select paymentdate,
-		sum(amount) as tot_amt_by_date
+	sum(amount) as tot_amt_by_date
 from payments
 group by paymentdate
 order by 1;
@@ -107,7 +107,7 @@ from orderdetails);
 
 -- 5.List the amount paid by each customer.
 select o.customernumber, 
-		c.customername, 
+	c.customername, 
         sum(od.quantityordered*od.priceeach) as ord_amt
 from customers c
 inner join orders o on c.customernumber=o.customernumber
@@ -116,7 +116,7 @@ group by o.customernumber, o.ordernumber
 
 -- 6.How many orders have been placed by Herkku Gifts?
 select c.customername, 
-		count(distinct ordernumber) as ord_num
+	count(distinct ordernumber) as ord_num
 from customers c
 inner join orders o on c.customernumber=o.customernumber
 where c.customername='Herkku Gifts'
@@ -133,7 +133,7 @@ where officecode =
 -- 8.Report those payments greater than $100,000. 
 -- Sort the report so the customer who made the highest payment appears first.
 select c.customername, 
-		p.*
+	p.*
 from customers c
 inner join payments p on c.customernumber=p.customernumber
 where amount>100000
@@ -141,7 +141,7 @@ order by amount desc;
 
 -- 9.List the value of 'On Hold' orders.
 select od.ordernumber, 
-		sum(od.quantityordered*od.priceeach) as ord_value
+	sum(od.quantityordered*od.priceeach) as ord_value
 from orderdetails od
 inner join orders o on od.ordernumber=o.ordernumber
 where o.status='On Hold'
@@ -149,8 +149,8 @@ group by 1;
 
 -- 10.Report the number of orders 'On Hold' for each customer.
 select c.customernumber, 
-		c.customername, 
-		count(distinct ordernumber) as ord_num_on_hold
+	c.customername, 
+	count(distinct ordernumber) as ord_num_on_hold
 from customers c
 inner join orders o on c.customernumber=o.customernumber
 where status='On Hold'
@@ -177,9 +177,9 @@ order by 3 desc;
 -- 3.List the names of customers and their corresponding order number where a particular order from 
 -- that customer has a value greater than $25,000?
 select c.customernumber,
-		c.customername,
-		o.ordernumber,
-		sum(od.quantityordered*od.priceeach) as ord_amt
+	c.customername,
+	o.ordernumber,
+	sum(od.quantityordered*od.priceeach) as ord_amt
 from customers c
 inner join orders o on c.customernumber=o.customernumber
 inner join orderdetails od on o.ordernumber=od.ordernumber
@@ -189,7 +189,7 @@ order by ord_amt desc;
 
 -- 4.Are there any products that appear on all orders?
 select productcode, 
-		count(distinct ordernumber) as ord_num
+	count(distinct ordernumber) as ord_num
 from orderdetails
 group by productcode
 having ord_num=( select count(distinct ordernumber)
@@ -204,7 +204,7 @@ having (avg(od.priceeach)-p.buyprice)/p.buyprice>1;
 
 -- 6.List the products ordered on a Monday.
 select p.*,
-		o.orderdate
+	o.orderdate
 from products p
 inner join orderdetails od on p.productcode=od.productcode
 inner join orders o on od.ordernumber=o.ordernumber
@@ -212,8 +212,8 @@ where weekday(orderdate)='Monday';
 
 -- 7.What is the quantity on hand for products listed on 'On Hold' orders?
 select p.productcode,
-		p.productname,
-		p.quantityinstock
+	p.productname,
+	p.quantityinstock
 from products p
 inner join orderdetails od on p.productcode=od.productcode
 inner join orders o on od.ordernumber=o.ordernumber
@@ -241,7 +241,7 @@ where productname regexp 'ship$';
 
 -- 3.Report the number of customers in Denmark, Norway, and Sweden.
 select country,
-		count(distinct customernumber) as cust_num
+	count(distinct customernumber) as cust_num
 from customers
 where country in ('Denmark', 'Norway', 'Sweden')
 group by 1
@@ -262,7 +262,7 @@ where customername regexp '[0-9]';
 
 -- 6.List the names of employees called Dianne or Diane.
 select lastname,
-		firstname
+	firstname
 from employees
 where lastname regexp 'Dian{1,2}e'
 or firstname regexp 'Dian{1,2}e';
@@ -283,14 +283,14 @@ where productcode regexp '^S700';
 
 -- 9.List the names of employees called Larry or Barry.
 select lastname,
-		firstname
+	firstname
 from employees
 where lastname regexp 'l|barry'
 or firstname regexp 'l|barry';
 
 -- 10.List the names of employees with non-alphabetic characters in their names.
 select lastname,
-		firstname
+	firstname
 from employees
 where lastname regexp '[^a-z]'
 or firstname regexp '[^a-z]';
