@@ -20,9 +20,9 @@ where c.customername='Herkku Gifts';
 
 -- 4.Compute the commission for each sales representative, assuming the commission is 5% of the value of an order. Sort by employee last name and first name.
 select e.employeenumber,
-		e.lastname,
-		e.firstname,
-		round(0.05*sum(od.quantityOrdered*od.priceEach),2) as comm
+	e.lastname,
+	e.firstname,
+	round(0.05*sum(od.quantityOrdered*od.priceEach),2) as comm
 from employees e
 left join customers c on e.employeenumber=c.salesRepEmployeeNumber
 inner join orders o on c.customerNumber=o.customerNumber
@@ -40,7 +40,7 @@ from
 
 -- 6.Compute the average time between order date and ship date for each customer ordered by the largest difference.
 select customernumber,
-		round(avg(shippeddate-orderdate),2) as diff
+	round(avg(shippeddate-orderdate),2) as diff
 from orders
 where status='shipped'
 group by 1
