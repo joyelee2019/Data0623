@@ -536,7 +536,7 @@ delimiter $$
 drop procedure if exists GetPriceIncreased $$
 create procedure GetPriceIncreased(
 	in product_category char(25),
-	out increment decimal(10,2) )
+	increment decimal(10,2) )
 begin
 	update products
 	set buyprice=(1+increment)*buyprice
