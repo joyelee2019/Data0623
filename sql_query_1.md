@@ -1,1 +1,0 @@
-# MySQL Homework 1
