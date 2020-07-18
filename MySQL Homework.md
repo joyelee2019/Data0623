@@ -500,11 +500,15 @@ on e.reportsto=t.employeenumber;
 10.What is the percentage value of each product in inventory sorted by the highest percentage first (Hint: Create a view first).
 
 ```MySQL
+create view InventoryPercentage_View
+as
 select *,
 round(100*sum(quantityinstock)/ (select sum(quantityinstock) from products),2) as percent_invt
 from products
 group by productCode
 order by 10 desc;
+
+select * from InventoryPercentage_View;
 ```
 11.Write a function to convert miles per gallon to liters per 100 kilometers.
 
