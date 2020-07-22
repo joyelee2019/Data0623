@@ -230,7 +230,7 @@ group by 1;
 
 ### Many to many relationship
 <details>
-<summary>**Many to many relationship question 1-8**</summary>
+<summary>Many to many relationship question 1-8</summary>
 
 1.List products sold by order date.
 
