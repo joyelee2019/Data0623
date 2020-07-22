@@ -9,7 +9,7 @@ The latitude and longitude are specified for office and customer locations in th
 ### Single entity
 
 <details>
-<summary>**Single entity questions 1-15**</summary>
+<summary>Single entity questions 1-15</summary>
 
 1.Prepare a list of offices sorted by country, state, city.
 
@@ -126,7 +126,7 @@ having order_amt>5000;
 
 ### One to many relationship
 <details>
-<summary>**One to many relationship questions 1-10**</summary>
+<summary>One to many relationship questions 1-10</summary>
 
 1.Report the account representative for each customer.
 
@@ -314,7 +314,7 @@ order by 1;
 ### Regular expressions
 
 <details>
-<summary>**Regular expressions questions 1-11**</summary>
+<summary>Regular expressions questions 1-11</summary>
 
 1.Find products containing the name 'Ford'.
 
@@ -428,7 +428,7 @@ where productvendor regexp 'Diecast$';
 ### General queries
 
 <details>
-<summary>**General queries questions 1-28**</summary>
+<summary>General queries questions 1-28</summary>
 
 1.Who is at the top of the organization (i.e.,  reports to no one).
 
@@ -911,7 +911,7 @@ order by 1;
 ### Correlated subqueries
 
 <details>
-<summary>**Correlated subqueries questions 1-4**</summary>
+<summary>Correlated subqueries questions 1-4</summary>
 
 1.Who reports to Mary Patterson?
 
@@ -989,6 +989,10 @@ order by 3 desc;
 </details>
 
 ### Spatial data
+
+<details>
+<summary>Spatial data questions 1-6</summary>
+
 The Offices and Customers tables contain the latitude and longitude of each office and customer in officeLocation and customerLocation, respectively, in POINT format. Conventionally, latitude and longitude and reported as a pair of points, with latitude first.
 
 1.Which customers are in the Southern Hemisphere?
@@ -1018,3 +1022,6 @@ and st_y(c.customerLocation)<st_y(o.officeLocation);
 -- 6.What is the distance between the Paris and Boston offices?
 
 -- To be precise for long distances, the distance in kilometers, as the crow flies, between two points when you have latitude and longitude, is (ACOS(SIN(lat1*PI()/180)*SIN(lat2*PI()/180)+COS(lat1*PI()/180)*COS(lat2*PI()/180)* COS((lon1-lon2)*PI()/180))*180/PI())*60*1.8532
+
+</p>
+</details>
