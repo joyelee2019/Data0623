@@ -1003,7 +1003,7 @@ st_x(customerLocation) AS lat
 from customers
 where st_x(customerLocation) < 0;
 ```
--- 2.Which US customers are south west of the New York office?
+2.Which US customers are south west of the New York office?
 
 ```MySQL
 select *
@@ -1013,15 +1013,107 @@ on o.state='NY'
 and st_x(c.customerLocation)<st_x(o.officeLocation)
 and st_y(c.customerLocation)<st_y(o.officeLocation);
 ```
--- 3.Which customers are closest to the Tokyo office (i.e., closer to Tokyo than any other office)?
+3.Which customers are closest to the Tokyo office (i.e., closer to Tokyo than any other office)?
 
--- 4.Which French customer is furthest from the Paris office?
+```MySQL
+with geom_data as(
+select c.customerNumber,
+	c.customerName,
+    c.addressLine1,
+    c.city,
+    c.state,
+    c.postalCode,
+    c.country,
+	st_x(c.customerLocation) as lat1,
+	st_y(c.customerLocation) as lng1,
+	st_x(f.officeLocation) as lat2,
+	st_y(f.officeLocation) as lng2
+from customers c 
+inner join offices f
+on f.city='Tokyo')
 
--- 5.Who is the northernmost customer?
+select customerNumber,
+	customerName,
+    addressLine1,
+    city,
+    state,
+    postalCode,
+    country,
+	round(6371 * acos(cos(radians(lat2)) 
+              * cos(radians(lat1)) 
+              * cos(radians(lng1) - radians(lng2) ) 
+              + sin(radians(lat2) ) 
+              * sin(radians(lat1) ) ),2) as dist_km
+from geom_data
+order by dist_km
+limit 1;
+```
+4.Which French customer is furthest from the Paris office?
 
--- 6.What is the distance between the Paris and Boston offices?
+```MySQL
+with geom_data as(
+select c.customerNumber,
+	c.customerName,
+    c.addressLine1,
+    c.city,
+    c.state,
+    c.postalCode,
+    c.country,
+	st_x(c.customerLocation) as lat1,
+	st_y(c.customerLocation) as lng1,
+	st_x(f.officeLocation) as lat2,
+	st_y(f.officeLocation) as lng2
+from customers c 
+inner join offices f
+on f.city='Paris')
 
--- To be precise for long distances, the distance in kilometers, as the crow flies, between two points when you have latitude and longitude, is (ACOS(SIN(lat1*PI()/180)*SIN(lat2*PI()/180)+COS(lat1*PI()/180)*COS(lat2*PI()/180)* COS((lon1-lon2)*PI()/180))*180/PI())*60*1.8532
+select customerNumber,
+	customerName,
+    addressLine1,
+    city,
+    state,
+    postalCode,
+    country,
+	round(6371 * acos(cos(radians(lat2)) 
+              * cos(radians(lat1)) 
+              * cos(radians(lng1) - radians(lng2) ) 
+              + sin(radians(lat2) ) 
+              * sin(radians(lat1) ) ),2) as dist_km
+from geom_data
+order by dist_km desc
+limit 1;
+```
+5.Who is the northernmost customer?
+
+```MySQL
+select *,
+st_y(customerLocation) as lng
+from customers
+where st_y(customerLocation)>0
+order by lng desc
+limit 1;
+```
+6.What is the distance between the Paris and Boston offices?
+
+```MySQL
+with geom_data as(
+select 
+	st_x(p.officeLocation) as lat1,
+	st_y(p.officeLocation) as lng1,
+	st_x(b.officeLocation) as lat2,
+	st_y(b.officeLocation) as lng2
+from offices p 
+inner join offices b on p.city='Paris' and b.city='Boston' )
+
+select
+	round(6371 * acos(cos(radians(lat2)) 
+              * cos(radians(lat1)) 
+              * cos(radians(lng1) - radians(lng2) ) 
+              + sin(radians(lat2) ) 
+              * sin(radians(lat1) ) ),2) as dist_km
+from geom_data;
+```
+To be precise for long distances, the distance in kilometers, as the crow flies, between two points when you have latitude and longitude, is (ACOS(SIN(lat1*PI()/180)*SIN(lat2*PI()/180)+COS(lat1*PI()/180)*COS(lat2*PI()/180)* COS((lon1-lon2)*PI()/180))*180/PI())*60*1.8532
 
 </p>
 </details>
